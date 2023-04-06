@@ -2,3 +2,15 @@
 *.log
 *.fls
 *.fdb_latexmk
+*.acn
+*.bcf
+*.glo
+*.glsdefs
+*.ist
+*.lof
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.upa
