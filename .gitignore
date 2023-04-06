@@ -3,6 +3,8 @@
 *.fls
 *.fdb_latexmk
 *.acn
+*.bbl
+*.blg
 *.bcf
 *.glo
 *.glsdefs
@@ -14,3 +16,4 @@
 *.synctex.gz
 *.toc
 *.upa
+*.upb
