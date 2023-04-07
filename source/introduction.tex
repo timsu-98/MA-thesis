@@ -9,7 +9,19 @@ This chapter first gives the context of the thesis and introduces the research p
 
 % Maybe mention Human-Robot Collaboration?
 
-\gls{mec} as an evolution of \gls*{mcc} brings application hosting from data centers down to the edge of the network, where the data were initially collected, to achieve low latency and bandwidth efficiency \cite{Lin2019}. For latency-sensitive tasks on \glspl{amr}, such as perception and navigation, \gls{mec} offers an opportunity to enable the \glspl{amr} with limited resources by offloading costly computation tasks to the edge, while only a small portion of the computation remains on the \gls{amr}'s on-board system. However, depending on the application scenarios, offloading certain tasks from the \glspl{amr} to the edge at all times may not be possible, beneficial or even feasible due to the network's latency, dynamic network changes, and resource availability. \citeauthor*{Baxi2022} point out that a simple perception task using an RGB-D camera can cause over 100 ms sensing-to-actuation round-trip latency and over 50 MBytes per second network bandwidth usage. On the other hand, offloading computational workloads to the edge could also impact the \gls{amr}'s safety, availability as well as on-board resources. The exact influence on the robotic system will depend on the chosen offloading strategy. Therefore, it is necessary to investigate the effects of certain offloading strategies on the \gls{amr}'s safety, availability, and task performance.
+\begin{figure}[htb]
+    \centering
+
+    \includegraphics[width=120mm]{figures/setup/amr_offloading.png}
+    \caption{Offloading pipeline between \gls{amr} and edge computer}
+
+    \label{fig:amr_offloading}
+\end{figure}
+
+\gls{mec} as an evolution of \gls*{mcc} brings application hosting from data centers down to the edge of the network, where the data were initially collected, to achieve low latency and bandwidth efficiency \cite{Lin2019}. For latency-sensitive tasks on \glspl{amr}, such as perception and navigation, \gls{mec} offers an opportunity to enable the \glspl{amr} with limited resources by offloading costly computation tasks to the edge, while only a small portion of the computation remains on the \gls{amr}'s on-board system. A full offloading pipeline for \glspl{amr} is illustrated in figure~\cref{fig:amr_offloading}.
+
+
+However, depending on the application scenarios, offloading certain tasks from the \glspl{amr} to the edge at all times may not be possible, beneficial or even feasible due to the network's latency, dynamic network changes, and resource availability. \citeauthor*{Baxi2022} point out that a simple perception task using an RGB-D camera can cause over 100 ms sensing-to-actuation round-trip latency and over 50 MBytes per second network bandwidth usage. On the other hand, offloading computational workloads to the edge could also impact the \gls{amr}'s safety, availability as well as on-board resources. The exact influence on the robotic system will depend on the chosen offloading strategy. Therefore, it is necessary to investigate the effects of certain offloading strategies on the \gls{amr}'s safety, availability, and task performance.
 
 \section{Research Problem}
 
@@ -19,8 +31,10 @@ This thesis first investigates offloading strategies with different offloading r
 
 % Then, this thesis carries on to implement a decision-making offloading strategy depending on runtime parameters, such as latency and \gls{amr}'s CPU usage and power consumption. This strategy is a simplified variant of the algorithm proposed by \citeauthor*{Ning2019} with a goal of minimizing latency and additional constraints subjected to power consumption and network bandwidth. 
 
-This thesis evaluates the aforementioned offloading strategies regarding different metrics such as the CPU usage and power consumption of the \gls{amr}, the network bandwidth in use, and the mean average precision of the 2D object detection algorithm for human obstacles. The offloading strategies are first evaluated in simulation and later on in real robotic systems. With the results from these experiments, this thesis is trying to answer the following research questions: What effects do the aforementioned offloading strategies have on the specified metrics? Furthermore, this thesis is trying to answer the question if and how the effects of different offloading strategies vary under different circumstances and if they have any (application-specific) constraints.
+This thesis evaluates the aforementioned offloading strategies regarding different metrics such as the CPU usage and power consumption of the \gls{amr}, the network bandwidth in use, and the mean average precision of the 2D object detection algorithm for human obstacles. The offloading strategies are first evaluated in simulation and later on in real robotic systems. With the results from these experiments, this thesis is trying to answer the following research questions: What effects do the aforementioned offloading strategies have on the specified metrics? Furthermore, this thesis is trying to answer the question: If and how the effects of different offloading strategies vary under different circumstances and if they have any (application-specific) constraints.
 
 % Finally, this thesis is trying to gain insights if more complex strategies to achieve better results on the metrics. 
 
 \section{Methodology}
+
+
