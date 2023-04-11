@@ -1,9 +1,9 @@
 % !TeX spellcheck = en_US
-\chapter{Introduction}
+\chapter{Introduction}\label{ch:introduction}
 
-This chapter first gives the context of the thesis and introduces the research problem the thesis addresses. Furthermore, this chapter discusses the research questions the thesis is trying to answer and what approaches the thesis adopts. In addition, this chapter also gives a short introduction to the structure of the thesis.
+This chapter first gives the context of the thesis and introduces the research problem the thesis addresses. Furthermore, this chapter discusses the research questions the thesis is trying to answer and what approaches the thesis adopts to investigate these questions.
 
-\section{Background}
+\section{Background}\label{sec:introduction:background}
 
 \glspl{amr} have gained enormous significance in automated factories. Recent developments in robotics and \gls{ai} have enabled the \gls{amr} to operate with autonomy. This requires the \glspl{amr} to run computation- and memory-intensive algorithms related to image processing, path planning, \gls{slam}, and learning \cite{Saeik2021}. However, \citeauthor*{Baxi2022} point out this poses a challenge for the robot's onboard system, which has limited computational capabilities due to size and cost limitation as well as battery life. Furthermore, these algorithms are time-sensitive and can cause operational failure for the \glspl{amr} if the latency restrictions cannot be satisfied. It becomes essential for large automated factories using \glspl{amr} to address this problem. 
 
@@ -23,7 +23,7 @@ This chapter first gives the context of the thesis and introduces the research p
 
 However, depending on the application scenarios, offloading certain tasks from the \glspl{amr} to the edge at all times may not be possible, beneficial or even feasible due to the network's latency, dynamic network changes, and resource availability. \citeauthor*{Baxi2022} point out that a simple perception task using an RGB-D camera can cause over 100 ms sensing-to-actuation round-trip latency and over 50 MBytes per second network bandwidth usage. On the other hand, offloading computational workloads to the edge could also impact the \gls{amr}'s safety, availability as well as on-board resources. The exact influence on the robotic system will depend on the chosen offloading strategy. Therefore, it is necessary to investigate the effects of certain offloading strategies on the \gls{amr}'s safety, availability, and task performance.
 
-\section{Research Problem}
+\section{Research Questions}\label{sec:introduction:research_questions}
 
 This thesis first implements an offloading framework for robot perception and analyzes the effects of different offloading strategies, using \gls{ros} \cite{Macenski2022}. More specifically, this thesis considers a 2D object detection task using YOLOv5 network, proposed by \citeauthor*{Jocher2020}. YOLOv5n, a smaller variant of the perception network, will be deployed on the \gls{amr}'s on-board system, while the edge counterpart uses a more accurate but also more complex variant, e.g., YOLOv5l. The environment is an industrial warehouse containing human objects as obstacles. The \glspl{amr} are equipped with camera sensors and use the native \gls{ros} navigation stack, proposed by \citeauthor*{Macenski2020} to navigate from a user-defined route. 
 
@@ -31,13 +31,15 @@ This thesis first investigates offloading strategies with different offloading r
 
 This thesis evaluates the aforementioned offloading strategies regarding different metrics such as the CPU usage and power consumption of the \gls{amr}, the network bandwidth in use, and the mean average precision of the 2D object detection algorithm for human obstacles. The offloading strategies are first evaluated in simulation and later on in real robotic systems. With the results from these experiments, this thesis is trying to answer the following research questions: What effects do the aforementioned offloading strategies have on the specified metrics? Furthermore, this thesis is trying to answer the question: If and how the effects of different offloading strategies vary under different circumstances and if they have any (application-specific) constraints.Finally, this thesis is trying to gain insights if more complex strategies to achieve better results on the metrics. 
 
-\section{Methodology}
+\section{Methodology}\label{sec:introduction:methodology}
 
 This thesis first implements a reliable framework for \glspl{amr} using object detecting task as an example and using \gls{ros} as middleware. Then, the thesis implements a simulation scenario in \gls{gazebo}. The implemented scenario simulates a factory warehouse including obstacles such as shelves, boxes, and human. Finally, this thesis improves the object detection pipeline in order to achieve the real-time inference on both the \gls{amr}'s onboard system and the edge computer. The thesis intends to investigate the influence of different offloading strategies. Therefore, an inference pipeline with real-time inference capabilities reduces the performance requirements for both the \gls{amr}'s onboard system as well as the edge computer.
 
 % glossary for "docker" and "netem"
-With the aforementioned ground works in place, the experiments are first conducted in simulation using \gls{ros} and \gls{netem}. Then, this thesis continues to conduct the experiment on real robotic system with \gls{wifi} and Ethernet connection to the edge computer. The simulation experiment and the real-robot experiment use the same simulation scenario in order to achieve consistent and comparable results. The performance overhead of the replay of the simulation data is comparable with the camera sensor module on the \gls{amr}. The comparison will be elaborated in 
+With the aforementioned ground works in place, this thesis first conduct the experiment in simulation using \gls{ros} and \gls{netem}. Then, this thesis continues to conduct the experiment on real robotic system with \gls{wifi} and Ethernet connection to the edge computer. In order to achieve consistent and comparable results, the simulation experiment and the real-robot experiment use the same simulation scenario recording. Therefore, the inputs of the real-robot experiment are not collected from real world using camera sensors. However, this thesis shows that the performance overhead of the replay of the simulation data is comparable with the camera sensor module on the \gls{amr}. The comparison will be elaborated in~\cref{ch:real_robot_experiment}. 
 
 The experiment results from the simulation and the real-robot experiments are evaluated after the execution of the experiment using the data collected during the experiment in order to reduce the influence of the data collection on the performance of the \gls{amr}'s onboard system and the edge computer.
 
 \section{Structure of the Thesis}
+
+In ~\cref{ch:background}, this thesis gives an introduction to the related works that are needed to understand the content of the thesis. In ~\cref{ch:general_setup}, this thesis describes in details the implementation of the offloading framework this thesis uses to investigate the research questions. It also describes the implementation of the offloading strategies. Furthermore, this thesis presents the evaluation methods for different evaluation metrics. In ~\cref{ch:simulation} and ~\cref{ch:real_robot_experiment}, this thesis describes how the experiments are conducted in simulation as well as on real robotic system. Moreover, this thesis analyzes the results and discusses the experiments. Finally, in ~\cref{ch:conclusion_and_future_works}, this thesis gives the conclusion to the research questions and discusses the limitation of the works 
