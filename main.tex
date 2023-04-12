@@ -16,6 +16,8 @@
 \usepackage{booktabs}%
 \usepackage[acronym, toc, shortcuts]{glossaries}
 \usepackage{array}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 %
 % Set paths
 \graphicspath{{figures/}}%
@@ -49,6 +51,7 @@
 %
 % List of figures and tables
 % --------------------------
+\listofalgorithms
 \listoffigures
 \listoftables
 
@@ -56,7 +59,8 @@
 % Glossaries
 % ----------
 \include{source/glossaries}
-\printglossary
+\printglossary[title=Special Terms, toctitle=List of terms]
+\printglossary[type=\acronymtype, toctitle=List of acronyms]
 %
 % Content
 % -------
