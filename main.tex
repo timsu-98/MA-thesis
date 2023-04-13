@@ -18,6 +18,8 @@
 \usepackage{array}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{eqparbox}
+\renewcommand{\algorithmiccomment}[1]{\hfill\eqparbox{COMMENT}{// #1}}
 %
 % Set paths
 \graphicspath{{figures/}}%
