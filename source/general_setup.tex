@@ -5,7 +5,7 @@ Finally, in \cref{sec:general_setup:evaluation}, this chapter discusses the eval
 
 \section{Implementation}\label{sec:general_setup:implementation}
 
-This thesis implements an offloading pipeline for a robotic object detection task. This includes an offloading module making decision whether to offloading the image from the camera sensor to the edge computer or to compute the image locally using onboard resources. An inference pipeline for object detection task is implemented using pre-trained models from YOLOv5 \cite{Jocher2022} deployed using PyTorch library \cite{Paszke2019}. Furthermore, in order to test the offloading framework in repeatable and comparable experiments, a simulation scenario is implemented in \gls{gazebo} \cite{Koenig2004} and a recording of the scenario run is created with \gls{ros}. Finally, since the output of the object detection task is not used in any downstream applications. This thesis considers and implements various evaluation paradigms to retrieve meaningful results from the data collected during the experiments. To delimit, this thesis only investigates the scenario where one \gls{amr} offloads to one edge computer. Investigations for multi-robot multi-edge scenarios are beyond the scope of this thesis. 
+This thesis implements an offloading pipeline for a robotic object detection task. This includes an offloading module making decision whether to offloading the image from the camera sensor to the edge computer or to compute the image locally using onboard resources. An inference pipeline for object detection task is implemented using pre-trained models from YOLOv5 \cite{Jocher2022} deployed using PyTorch library \cite{Paszke2019}. Furthermore, in order to test the offloading framework in repeatable and comparable experiments, a simulated scenario is implemented in \gls{gazebo} \cite{Koenig2004} and a recording of the scenario run is created with \gls{ros}. Finally, since the output of the object detection task is not used in any downstream applications. This thesis considers and implements various evaluation paradigms to retrieve meaningful results from the data collected during the experiments. To delimit, this thesis only investigates the scenario where one \gls{amr} offloads to one edge computer. Investigations for multi-robot multi-edge scenarios are beyond the scope of this thesis. 
 
 \subsection{Offloading Module}
 
@@ -17,7 +17,7 @@ This thesis implements an offloading pipeline for a robotic object detection tas
 \end{figure}
 
 % TODO: this may need some adaptions to the dynamic offloading module
-An offloading pipeline should have the abilities to make decision, coordinate the resources and communicate over the network. A generic offloading pipeline is illustrated in~\cref{fig:general_setup}. Each blue block represents a \gls{ros} node and each yellow circle represents a \gls{ros} topic. The arrows indicate the directions of the data flow. The dotted lines are the virtualization of the robotic system and the edge computer. The images can come from either a camera sensor or the replay of the simulation scenario. Once the \gls{amr} receives the image, the offloading module will have to decide whether to offload the image to the edge computer or pass it to the local perception node, which uses a simpler and lighter model for image inference. The offloading module makes offloading decisions by publishing the received image to pre-defined \gls{ros} topics. Once the perception nodes receive the image, they will start to do inference on the given image. Then, the processed results are published to another pre-defined \gls{ros} topic and recorded by the \gls{ros} bag. Meanwhile, the ground truth of the simulation for the object detection task is also published to a \gls{ros} topic and recorded by the \gls{ros} bag. 
+An offloading pipeline should have the abilities to make decision, coordinate the resources and communicate over the network. A generic offloading pipeline is illustrated in~\cref{fig:general_setup}. Each blue block represents a \gls{ros} node and each yellow circle represents a \gls{ros} topic. The arrows indicate the directions of the data flow. The dotted lines are the virtualization of the robotic system and the edge computer. The images can come from either a camera sensor or the replay of the simulated scenario. Once the \gls{amr} receives the image, the offloading module will have to decide whether to offload the image to the edge computer or pass it to the local perception node, which uses a simpler and lighter model for image inference. The offloading module makes offloading decisions by publishing the received image to pre-defined \gls{ros} topics. Once the perception nodes receive the image, they will start to do inference on the given image. Then, the processed results are published to another pre-defined \gls{ros} topic and recorded by the \gls{ros} bag. Meanwhile, the ground truth of the simulation for the object detection task is also published to a \gls{ros} topic and recorded by the \gls{ros} bag. 
 
 In order to evaluate different offloading strategies, the offloading module possesses the ability to switch between them. Therefore, the offloading strategies act as plugins for the offloading module. Furthermore, the offloading module is responsible for loading the static hyper-parameters for the offloading strategies on start-up and also for keeping track of the run-time states of the system to allow dynamic offloading strategies. In an offloading pipeline, the system states come from various \gls{ros} nodes observing different functionalities of the system. This information is published to different \gls{ros} topics and subscribed by the offloading module. To reduce the influence of the fluctuation in the observed system states, the offloading module applies a \gls{sma} algorithm to smooth the data. 
 
@@ -135,19 +135,19 @@ In addition to the execution latency, the offloading decision is also subjected 
 
 \section{Simulation}\label{sec:general_setup:simulation}
 
-To run experiments both in simulation and on real robots, this thesis implements a simulation scenario of a factory warehouse with one \gls{amr} and obstacles. The simulation is recorded and replayed for each experiment run to reduce the computation overhead of the simulation and to make the experiment repeatable. Furthermore, in order to compare the results from simulation and real robot, the simulation recording is used as input for both experiments under the same replay settings. 
+To run experiments both in simulation and on real robots, this thesis implements a simulated scenario of a factory warehouse with one \gls{amr} and obstacles. The simulation is recorded and replayed for each experiment run to reduce the computation overhead of the simulation and to make the experiment repeatable. Furthermore, in order to compare the results from simulation and real robot, the simulation recording is used as input for both experiments under the same replay settings. 
 
-\subsection{Simulation scenario}
+\subsection{Simulated scenario}
 
 % include a bird-view shot for the simulation with warehouse, robot, and human obstacles in the view.
-The scenario simulates a modern-day factory warehouse, illustrated in (refer to the figure here). The simulated scenario is implemented in \gls{gazebo} with the help of a software package called "scenario execution", which the author implemented during his work at Intel Labs. The scenario consists of a factory warehouse environment and static obstacles, such as humans, boxes, shelves, and pallets, which are common obstacles in a factory warehouse. Since the object detection models are pretrained with \gls{coco} data-sets, which do not contain many of the static obstacles. The evaluation for the \gls{map} is of the object detection task is restricted only to detect the human obstacles. To clarify, the object detection models still detect all of the classes that are defined in the \gls{coco} data-sets. However, only the human class is taken into considering when calculating the \gls{map} metric during the evaluation. Since the performance difference among different \gls{yolov5} models are negligible when the scene is too simple, this thesis includes ten human obstacles in the simulation scenario to increase the complexity of the object detection task. Moreover, some human obstacles are occluded by other obstacles in the scenario. Detecting occluded objects has been proven to be a challenging task in object detection. 
+The scenario simulates a modern-day factory warehouse, illustrated in (refer to the figure here). The simulated scenario is implemented in \gls{gazebo} with the help of a software package called "scenario execution", which the author implemented during his work at Intel Labs. The scenario consists of a factory warehouse environment and static obstacles, such as humans, boxes, shelves, and pallets, which are common obstacles in a factory warehouse. Since the object detection models are pretrained with \gls{coco} data-sets, which do not contain many of the static obstacles. The evaluation for the \gls{map} is of the object detection task is restricted only to detect the human obstacles. To clarify, the object detection models still detect all of the classes that are defined in the \gls{coco} data-sets. However, only the human class is taken into considering when calculating the \gls{map} metric during the evaluation. Since the performance difference among different \gls{yolov5} models are negligible when the scene is too simple, this thesis includes ten human obstacles in the simulated scenario to increase the complexity of the object detection task. Moreover, some human obstacles are occluded by other obstacles in the scenario. Detecting occluded objects has been proven to be a challenging task in object detection. 
 
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=120mm]{}
-%     \caption{Bird view of the simulation scenario}
-%     \label{fig:bird_view_scenario}
-% \end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=120mm]{figures/sim/bird_view.png}
+    \caption{Bird view of the simulated scenario}
+    \label{fig:bird_view_scenario}
+\end{figure}
 
 The \gls{amr} is implemented as a dynamic obstacle in the scenario and it moves along a pre-defined path. The pre-define path is made up of a series of way points in the simulation. Once the \gls{amr} reaches the current way point, the scenario execution will assign the next way point to the \gls{amr}. After all way points are successfully reached, the scenario execution shuts down the simulation. In the simulation, the \gls{amr} does not collide with other obstacles. The \gls{amr} is equipped with a RGB-camera that is located on top the of the robot and facing forward. The intrinsic parameters of the RGB camera sensor is listed in \cref{tab:camera_params}. During the simulation, the camera can observe all of the obstacles in the simulation with partial occlusion of some obstacles. In addition to the RGB image stream, the simulated camera sensor also outputs a image stream that contains the ground truth for the bounding boxes in object detection task using the bounding box sensor from \gls{gazebo}. The ground truth data and the image stream are bridged from the \gls{gazebo} simulation topics to \gls{ros} topics so that the offloading pipeline can make use of them. In (cite figure of robot view here), it shows from the point of view of the \gls{amr}'s camera sensors. On the left, it shows the illustration of the bounding box ground truth data, while the image stream is shown on the right. The bounding box camera sensor and the RGB camera sensor are positioned the same and intend to simulate an actual point of view of a normal \gls{amr}.
 
@@ -172,14 +172,25 @@ The \gls{amr} is implemented as a dynamic obstacle in the scenario and it moves 
 
 % describes how the robot is navigated, describes how the camera is mounted on the robot
 
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=120mm]{}
-%     \caption{Robot view of the simulation scenario}
-%     \label{fig:robot_view_scenario}
-% \end{figure}
+\begin{figure}
+    \centering
+    \begin{subfigure}[h]{0.4\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/sim/rgb_img.png}
+        \caption{RGB image}
+        \label{fig:robot_view_scenario:rgb_image}
+    \end{subfigure}
+    \begin{subfigure}[h]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/sim/bbgt.png}
+        \caption{Bounding box ground truth}
+        \label{fig:robot_view_scenario:bbgt}
+    \end{subfigure}
+    \caption{Robot view of the simulated scenario}
+    \label{fig:robot_view_scenario}
+\end{figure}
 
-In this simulation scenario, no dynamic obstacles are implemented. However, the \gls{amr} is dynamic and the camera sensors are mounted on top of it. Therefore, in the viewpoint of the \gls{amr}, the obstacles are constantly moving and thus could be treated as dynamic solely for the object detection task. Another reason for this is that the fresh out-of-box bounding box sensor from \gls{gazebo} is inaccurate for dynamic obstacles like humans, because dynamic human actors are implemented as the actors in \gls{gazebo} and the animation of the actors is realized by the deformation of the meshes of the actor model. Unfortunately, the bounding box sensor can only provide the bounding boxes of the undeformed actor. Therefore, the bounding boxes available are not accurate to serve as the ground truth for the object detection task. Till the finish of the thesis, the problem is not resolved with the current version of \gls{gazebo} this thesis uses. However, static human obstacles and dynamic \gls{amr} still constitutes an adequate simulation scenario for the research questions this thesis is trying to address. 
+It is worth pointing out that no dynamic obstacles are implemented in the simulated scenario. However, the \gls{amr} is dynamic and the camera sensors are mounted on top of it. Therefore, in the viewpoint of the \gls{amr}, the obstacles are constantly moving and thus could be treated as dynamic solely for the object detection task. Another reason for this is that the fresh out-of-box bounding box sensor from \gls{gazebo} is inaccurate for dynamic obstacles like humans, because dynamic human actors are implemented as the actors in \gls{gazebo} and the animation of the actors is realized by the deformation of the meshes of the actor model. Unfortunately, the bounding box sensor can only provide the bounding boxes of the undeformed actor. Therefore, the bounding boxes available are not accurate to serve as the ground truth for the object detection task. Till the finish of the thesis, the problem is not resolved with the current version of \gls{gazebo} this thesis uses. However, static human obstacles and dynamic \gls{amr} still constitutes an adequate simulated scenario for the research questions this thesis is trying to address. 
 
 \subsection{Record and Replay}
 
@@ -200,32 +211,40 @@ Simulation takes up a great amount of the resources of computers. To reduce the 
     \label{tab:ros_bag_comparison}
 \end{table}
 
-All topics during the simulation are recorded in the \gls{ros} bag, including the RGB images, the bounding box ground truth, the camera information, etc. The image stream consists of 1748 frames and the \gls{ros} bag is replayed at around 30 frames per second during the experiment. The \gls{qos} of the topics for RGB image stream and the bounding box ground truth are set to best effort during the \gls{ros} bag replay to simulate the \gls{qos} settings of sensors. Because the \gls{ros} topics are recorded at a different time than the experiment, the time stamps of the RGB image messages and the ground truth messages have to be overwritten by the receiving time of the offloading module. 
-
-
+All topics during the simulation are recorded in the \gls{ros} bag, including the RGB images, the bounding box ground truth, the camera information, etc. The image stream consists of 1748 frames and the \gls{ros} bag is replayed at around 30 frames per second during the experiment. Topics for RGB image stream and the bounding box ground truth are replayed with best effort reliability setting to ensure the RGB images are replayed the same way it is recorded. Since the \gls{ros} topics are recorded at a different time than the experiment, the time stamps of the RGB image messages and the ground truth messages have to be overwritten by the receiving time of the offloading module.
 
 \section{Evaluation Method}\label{sec:general_setup:evaluation}
 
+To comprehend the influence of different offloading strategies, an evaluation method on the experiment results needs to be developed. First, this thesis presents the evaluation metrics that are chosen to describe the behavior of the system. Then, this thesis discusses two evaluation methods, namely the synchronous and the asynchronous evaluation, and demonstrates why the latter is eventually chosen to evaluate the experiment results.
+
 \subsection{Metrics}
 
-% This sections lists all the evaluation metrics are used and how are they recorded and what tools are used in order to record them. 
+% This section lists all the evaluation metrics used and how they are recorded and what tools are used in order to record them. 
 
-\subsection{Synchronous Evaluation Paradigm}
+The evaluation metrics used by this thesis fall into two categories. The second category focuses mainly on the resources of the \gls{amr}. This includes the CPU percentage, the power consumption, and the network throughput. These metrics represent the onboard resources for computation, energy, and network used by the \gls{amr}. For these metrics, this thesis also includes the results when the offloading pipeline is idling as a baseline to eliminate the influence of processes other than the perception modules on the metrics. More specifically, in the baseline, the offloading module and the perception modules are still launched and the ROS bag is also being replayed. However, the offloading module is not sending any messages to the onboard perception module or the edge perception module, i.e., there are no object detection tasks being performed at all. 
+
+The second category describes the performance of the object detection task, including the execution latency, the overall processed frame rate, and the \gls{map}. The two components of the execution latency, i.e., the network delay and the inference time, are evaluated separately for offloading and local computation. In addition, to evaluate how the offloading pipeline is performing over the entire simulation, the overall processed frame rate, i.e., what percentage of all the frames are processed by perception modules. The \gls{map} only consider the person class in the obstacles. The detection from the perception modules is compared with the bounding box ground truth from the simulation. The evaluation algorithm is provided by the package "torchauto" as a part of the code base from \gls{amsrl}. 
+
+For the comparison between the detection and the ground truth, the time stamps of the messages are crucial to the final result. This raises the question: what should be considered as simultaneity for the detection and the ground truth in task offloading? This thesis presents two evaluation methods of the \gls{map} metric in order to gain some insights into this question. 
+
+\subsection{Discussion on Evaluation Methods}
+
+In the synchronous evaluation, the detection is evaluated by being compared with the ground truth of the same time stamp. As illustrated in \cref{fig:sync_eval}, the image is either processed by the robot perception module or the edge perception module. The processed result and the ground truth are recorded by the ROS bag. After the experiment runs, the recorded result and the ground truth with the nearest time stamps are grouped as one data frame by the message filter. The message filter groups the messages from different ROS topics. The proximate messages within a time threshold can be considered as the same data frame. The threshold is currently set to 0.05 seconds. The \gls{map} is calculated within the same data frame. For the entire experiment run, the mean and the standard deviation are calculated for all the data frames. This means the data frame is discarded if no detection or ground truth is present for the specific time stamp, i.e., the \gls{map} will not be affected if the robot onboard system or the edge computer is not capable of processing the image. The capability of processing the image is however reflected in the metric of the overall processed frame percentage. 
 
 \begin{figure}[htp]
     \centering
     \includegraphics[width=120mm]{figures/setup/sync_eval.png}
-    \caption{Synchronous evaluation paradigm}
+    \caption{Synchronous evaluation}
     \label{fig:sync_eval}
 \end{figure}
 
-\subsection{Asynchronous Evaluation Paradigm}
+The synchronous evaluation method does not take the execution latency into consideration, because the detection is compared against the ground truth with the same time stamp as the original image. Therefore, the final result interpolates the \glspl{map} of the edge computer and the robot onboard system. However, this also does not represent the offloading scenario accurately. In real-world applications, the \glspl{amr} move continuously. The current situation of the \gls{amr} could be very different than the moment the image is taken by the camera if the processing takes too long and the detection is outdated. Therefore, the execution latency plays an important role in the accuracy of how well the \glspl{amr} perceives the environment. 
+
+With the aforementioned considerations, this thesis investigates an asynchronous evaluation method that takes the execution latency into consideration, which is the evaluation method for \gls{map} metric that the thesis adopts. As illustrated in \cref{fig:async_eval}, the detection is compared against the images with the time stamps when the \glspl{amr} actually receive the processed result. This is achieved by changing the time stamps of the detection messages to the receiving time of the \glspl{amr}. Depending on how much the images have changed, the quality of the detection deteriorates with the execution latency, which is usually the case in real-world applications.
 
 \begin{figure}[htp]
     \centering
     \includegraphics[width=120mm]{figures/setup/async_eval.png}
-    \caption{Asynchronous evaluation paradigm}
+    \caption{Asynchronous evaluation}
     \label{fig:async_eval}
 \end{figure}
-
-\subsection{Discussion on Evaluation Methods}
