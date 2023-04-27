@@ -49,7 +49,11 @@
 
 % Abstract
 % --------
-\include{source/abstract}%
+\include{source/00abstract}%
+
+% Acknowledgement
+% --------
+\include{source/00acknowledgements}
 
 %
 % List of figures and tables
@@ -61,29 +65,29 @@
 %
 % Glossaries
 % ----------
-\include{source/glossaries}
+\include{source/00glossaries}
 \printglossary[title=Special Terms, toctitle=List of terms]
 \printglossary[type=\acronymtype, toctitle=List of acronyms]
+
 %
 % Content
 % -------
 \RAIstudentthesisPrintTableOfContents%
 \mainmatter%
-% \include{source/questions_need_to_be_answered}
-\include{source/introduction}
-\include{source/background}
-\include{source/related_works}
-% \include{source/algorithms}
-\include{source/general_setup}
-\include{source/simulation}
-\include{source/real_robot_experiment}
-\include{source/conclusion_and_future_works}
-\include{source/acknowledgements}
+\include{source/01introduction}
+\include{source/02related_works}
+\include{source/03materials_and_methods}
+\include{source/04methodology}
+\include{source/05implementation}
+\include{source/06experiments}
+\include{source/07discussion_and_future_works}
+
 %
 % Appendix
 % --------
-% \appendix%
-% \include{source/appendix}%
+\appendix%
+\include{source/10appendix}%
+
 %
 % References
 % ----------
