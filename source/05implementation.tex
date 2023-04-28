@@ -6,14 +6,16 @@ This chapter focuses on the implementation of the offloading frameworks designed
 \section{Offloading Framework}\label{sec:offloading_framework}
 % ------------------------------------------------------------
 
-The offloading framework is implemented with \gls{ros}. Different modules are implemented as \gls{ros} nodes and the communication between the nodes uses \gls{ros} topics, as illustrated in \cref{}
+The offloading framework is implemented with \gls{ros}2 \cite{Macenski2022}. Different modules are implemented as \gls{ros} nodes and the communication between the nodes uses \gls{ros} topics exclusively, as illustrated in \cref{fig:offloading_frame_work_implementation}. The \gls{rgb} images from the simulation is received by the offloading node via \gls{ros} topic. Thereon, the offloading node decides whether to offload to the edge or compute it locally by publishing it to the corresponding \gls{ros} topics. The perception nodes receive the image from the \gls{ros} topics and publish the processed results to a dedicated \gls{ros} topic which is subscribed by a \gls{ros} bag recorder and will be eventually used for evaluation. Morever, the network delays and the inference time measured by the offloading node and the perception nodes by measuring the critical time points during the offloading and the inference. 
+
+
 
 % Template for single figure
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{setup}  % TODO: change here
-    \caption{TODO: Change the caption here}  % TODO: change here
-    \label{fig:example_figure}  % TODO: change here
+    \includegraphics[width=\linewidth]{source/general_setup.png}
+    \caption{Offloading framework implementation (TODO: adapt this fig)}
+    \label{fig:offloading_frame_work_implementation}
 \end{figure}
 
 \subsection{Offloading Module}
@@ -29,7 +31,7 @@ The offloading framework is implemented with \gls{ros}. Different modules are im
 % TODO: find the quote on the edge computers
 In general, an offloading task can be any computationally intensive algorithms an \gls{amr} is required to run, such as perception, navigation, \gls{slam}, path planning, etc. This thesis chooses an object detection task as an example because an object detection task can have a significant performance difference between the robot's onboard system and the edge computer, which corresponds to the usage scenario of the edge offloading. An \gls{amr} is usually equipped with a simple onboard system with only access to \gls{cpu}, while edge computers are usually cloudlets and data centers on-premise with access to \gls{gpu}. As mentioned in (TODO: add a reference here), the \glspl{amr} use primarily \glspl{dnn} to detect objects. With frameworks like PyTorch that can make use of the \gls{gpu}, the performance difference between \gls{amr}'s onboard system and the edge computer is immense. Therefore, this thesis chooses object detection as an example for offloading tasks. 
 
-% TODO: fill in the real value
+% Table for inference time on different machines
 \begin{table}[htb]%
     \centering%
     \begin{tabular}{lccccc}
@@ -46,7 +48,6 @@ In general, an offloading task can be any computationally intensive algorithms a
     \label{tab:inference_time}%
 \end{table}
 
-% TODO: ask if it's okay to list the hardware specification
 % TODO: better phrasing
 In order to adapt to the performance difference between the \gls{amr}'s onboard system and the edge computer, the perception module should have two models available for object detection: a lightweight model that runs on the onboard system and a more complex model that runs on the edge computer. \gls{yolov5} provides a series of models with different complexities. To find appropriate models for the onboard system and the edge computer, this thesis investigates the inference times of different models on different machines, which can be taken from \cref{tab:inference_time}. To simulate the computation capability discrepancy between the two systems, this experiment uses a \gls{nuc} equipped only with an Intel(R) Core(TM) i3-8109U \gls{cpu}. On the other hand, the edge computer is equipped with an Intel(R) Core(TM) i9-7900X \gls{cpu} and a Nvidia GeForce GTX 1060 6GB \gls{gpu}. The models are deployed with \gls{pytorch} and output an array of bounding box detection. The inference time is measured between the time when the \gls{yolov5} receives the image and the time when the perception node outputs an array of bounding box detection. This includes the time for image pre-processing and the time of results post-processing. Furthermore, the image input for the offloading module has a frame rate around 25 frames per second. To achieve real-time, it is necessary that the inference time does not exceed 100 ms (\textbf{\textit{maybe phrase it better here}}). Longer inference time also causes the actual precision of the object detection to deteriorate, which will be discussed in (TODO: add a reference here). The model sizes and the \gls{map} data are taken from the documentation from \citeauthor*{Jocher2022} \cite{Jocher2022}. The \gls{map} data are evaluated on \gls{coco} val2017 \cite{Lin2014}. As a compromise between the inference time and the performance, this thesis chooses to deploy \gls{yolov5}n on the \gls{amr}'s onboard system and \gls{yolov5}l on the edge computer. 
 
