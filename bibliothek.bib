@@ -158,11 +158,11 @@
 
 @Article{Xu2020,
   author    = {Fei Xu and Weixia Yang and He Li},
-  journal   = {Computers {\&}amp$\mathsemicolon$ Electrical Engineering},
+  journal   = {Computers and Electrical Engineering},
   title     = {Computation offloading algorithm for cloud robot based on improved game theory},
   year      = {2020},
   issn      = {0045-7906},
-  month     = {oct},
+  month     = aug,
   pages     = {106764},
   volume    = {87},
   doi       = {10.1016/j.compeleceng.2020.106764},
@@ -295,7 +295,7 @@
   date         = {2018-05},
   doi          = {10.1109/tvt.2018.2790421},
   file         = {:pdf/Guo2018 - Collaborative Computation Offloading for Multiaccess Edge Computing Over Fiber_Wireless Networks.pdf:PDF},
-  groups       = {Offloading strategies, Classical approaches},
+  groups       = {Offloading strategies, Classical approaches, game theory approaches},
   journaltitle = {{IEEE} Transactions on Vehicular Technology},
   publisher    = {Institute of Electrical and Electronics Engineers ({IEEE})},
 }
@@ -390,7 +390,7 @@
   date         = {2016-10},
   doi          = {10.1109/tnet.2015.2487344},
   file         = {:pdf/Chen2016 - Efficient Multi User Computation Offloading for Mobile Edge Cloud Computing.pdf:PDF},
-  groups       = {Classical approaches, Offloading strategies},
+  groups       = {Offloading strategies, game theory approaches},
   journaltitle = {{IEEE}/{ACM} Transactions on Networking},
   publisher    = {Institute of Electrical and Electronics Engineers ({IEEE})},
 }
@@ -403,7 +403,7 @@
   date         = {2018},
   doi          = {10.1109/access.2018.2882800},
   file         = {:pdf/Pham2018 - Decentralized Computation Offloading and Resource Allocation for Mobile Edge Computing_ a Matching Game Approach.pdf:PDF},
-  groups       = {Classical approaches, Offloading strategies, game theory approaches},
+  groups       = {Offloading strategies, game theory approaches},
   journaltitle = {{IEEE} Access},
   publisher    = {Institute of Electrical and Electronics Engineers ({IEEE})},
 }
@@ -411,7 +411,7 @@
 @Software{Jocher2022,
   author    = {Glenn Jocher and Ayush Chaurasia and Alex Stoken and Jirka Borovec and NanoCode012 and Yonghye Kwon and Kalen Michael and TaoXie and Jiacong Fang and imyhxy and Lorna and Zeng Yifu and Colin Wong and Abhiram V and Diego Montes and Zhiqiang Wang and Cristi Fati and Jebastin Nadar and Laughing and UnglvKitDe and Victor Sonck and tkianai and yxNONG and Piotr Skalski and Adam Hogan and Dhruv Nair and Max Strobel and Mrinal Jain},
   doi       = {10.5281/zenodo.7347926},
-  groups    = {Implementation},
+  groups    = {Implementation, Robot vision},
   month     = nov,
   publisher = {Zenodo},
   title     = {{ultralytics/yolov5: v7.0 - YOLOv5 SOTA Realtime Instance Segmentation}},
@@ -677,6 +677,7 @@
 @Article{Tanwani,
   author       = {Tanwani, Ajay Kumar and Mor, Nitest and Kubiatowicz, John and Gonzalez, Joseph E. and Goldberg, Ken},
   title        = {A Fog Robotics Approach to Deep Robot Learning: Application to Object Recognition and Grasp Planning in Surface Decluttering},
+  abstractnote = {The growing demand of industrial, automotive and service robots presents a challenge to the centralized Cloud Robotics model in terms of privacy, security, latency, bandwidth, and reliability. In this paper, we present a ‘Fog Robotics’ approach to deep robot learning that distributes compute, storage and networking resources between the Cloud and the Edge in a federated manner. Deep models are trained on non-private (public) synthetic images in the Cloud; the models are adapted to the private real images of the environment at the Edge within a trusted network and subsequently, deployed as a service for low-latency and secure inference/prediction for other robots in the network. We apply this approach to surface decluttering, where a mobile robot picks and sorts objects from a cluttered floor by learning a deep object recognition and a grasp planning model. Experiments suggest that Fog Robotics can improve performance by sim-to-real domain adaptation in comparison to exclusively using Cloud or Edge resources, while reducing the inference cycle time by 4 to successfully declutter 86% of objects over 213 attempts.},
   file         = {:pdf/Tanwani - A Fog Robotics Approach to Deep Robot Learning_ Application to Object Recognition and Grasp Planning in Surface Decluttering.pdf:PDF},
   groups       = {Robotic offloading},
   journaltitle = {Proceedings - IEEE International Conference on Robotics and Automation},
@@ -692,7 +693,6 @@
   number       = {1},
   pages        = {10--17},
   volume       = {5},
-  abstract     = {The rapid growth of mobile internet services has yielded a variety of computatiWred as an efficient approach to relieve the heavy computational burdens and realize an efficient computation offloading. Driven by the consequent requirement for proper resource allocations for computation offloading via MEC, in this paper, we propose a Deep-Q Network (DQN) based task offloading and resource allocation algorithm for the MEC. Specifically, we consider a MEC system in which every mobile terminal has multiple tasks offloaded to the edge server and design a joint task offloading decision and bandwidth allocation optimization to minimize the overall offloading cost in terms of energy cost, computation cost, and delay cost. Although the proposed optimization problem is a mixed integer nonlinear programming in nature, we exploit an emerging DQN technique to solve it. Extensive numerical results show that our proposed DQN-based approach can achieve the near-optimal performance.},
   date         = {2019},
   doi          = {10.1016/j.dcan.2018.10.003},
   file         = {:pdf/Huang2019 - Deep Reinforcement Learning Based Joint Task Offloading and Bandwidth Allocation for Multi User Mobile Edge Computing.pdf:PDF},
@@ -708,7 +708,6 @@
   issn         = {1383-7621},
   pages        = {289--330},
   volume       = {98},
-  abstract     = {With the Internet of Things (IoT) becoming part of our daily life and our environment, we expect rapid growth in the number of connected devices. IoT is expected to connect billions of devices and humans to bring promising advantages for us. With this growth, fog computing, along with its related edge computing paradigms, such as multi-access edge computing (MEC) and cloudlet, are seen as promising solutions for handling the large volume of security-critical and time-sensitive data that is being produced by the IoT. In this paper, we first provide a tutorial on fog computing and its related computing paradigms, including their similarities and differences. Next, we provide a taxonomy of research topics in fog computing, and through a comprehensive survey, we summarize and categorize the efforts on fog computing and its related computing paradigms. Finally, we provide challenges and future directions for research in fog computing.},
   date         = {2019},
   doi          = {10.1016/j.sysarc.2019.02.009},
   file         = {:pdf/Yousefpour2019 - All One Needs to Know about Fog Computing and Related Edge Computing Paradigms_ a Complete Survey.pdf:PDF},
@@ -844,13 +843,14 @@
 }
 
 @Article{Redmon2016,
-  author  = {Joseph Redmon and Santosh Divvala and Ross Girshick and Ali Farhadi},
-  journal = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
-  title   = {You Only Look Once: Unified, Real-Time Object Detection},
-  year    = {2016},
-  pages   = {779--788},
-  doi     = {10.1109/cvpr.2016.91},
-  groups  = {Robot vision},
+  author       = {Joseph Redmon and Santosh Divvala and Ross Girshick and Ali Farhadi},
+  title        = {You Only Look Once: Unified, Real-Time Object Detection},
+  pages        = {779--788},
+  date         = {2016},
+  doi          = {10.1109/cvpr.2016.91},
+  file         = {:pdf/Redmon2016 - You Only Look Once_ Unified, Real Time Object Detection.pdf:PDF},
+  groups       = {Robot vision},
+  journaltitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
 }
 
 @Misc{Bochkovskiy2020,
@@ -940,23 +940,14 @@
   url    = {https://www.tensorflow.org/},
 }
 
-@Comment{jabref-meta: databaseType:bibtex;}
-
-@Comment{jabref-meta: grouping:
-0 AllEntriesGroup:;
-1 StaticGroup:Implementation\;0\;1\;0x8a8a8aff\;\;\;;
-2 StaticGroup:Perception\;0\;1\;0x8a8a8aff\;\;\;;
-2 StaticGroup:Reinforcement learning\;0\;1\;0x8a8a8aff\;\;\;;
-1 StaticGroup:MEC\;0\;1\;0x8a8a8aff\;\;Literature related Multi-access Edge Computing (MEC)\;;
-2 StaticGroup:cloud robotics\;0\;0\;0x8a8a8aff\;\;\;;
-2 StaticGroup:FogComputing\;0\;1\;0x8a8a8aff\;\;\;;
-2 StaticGroup:TSN\;0\;1\;0x8a8a8aff\;\;\;;
-1 StaticGroup:Offloading strategies\;0\;1\;0x8a8a8aff\;\;\;;
-2 StaticGroup:Classical approaches\;0\;0\;0x8a8a8aff\;\;\;;
-2 StaticGroup:game theory approaches\;0\;0\;0x8a8a8aff\;\;\;;
-2 StaticGroup:learning-based approaches\;0\;1\;0x8a8a8aff\;\;\;;
-1 StaticGroup:Robot vision\;0\;0\;0x8a8a8aff\;\;\;;
-1 StaticGroup:Robotic offloading\;0\;0\;0x8a8a8aff\;\;\;;
-1 StaticGroup:survey\;0\;1\;0x8a8a8aff\;\;\;;
-1 StaticGroup:Task partitioning\;0\;0\;0x8a8a8aff\;\;\;;
+@Article{Jiang2022,
+  author = {Peiyuan Jiang and Daji Ergu and Fangyao Liu and Ying Cai and Bo Ma},
+  title  = {A Review of Yolo Algorithm Developments},
+  issn   = {1877-0509},
+  pages  = {1066--1073},
+  volume = {199},
+  date   = {2022},
+  doi    = {10.1016/j.procs.2022.01.135},
+  file   = {:pdf/Jiang2022 - A Review of Yolo Algorithm Developments.pdf:PDF},
+  groups = {Robot vision},
 }

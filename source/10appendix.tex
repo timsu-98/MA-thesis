@@ -1,3 +1,29 @@
-\chapter{Results for Real-robot Experiment with reliable QoS reliability policy}\label{ch:appendix_a}
+\chapter{Results for Robot Experiment with Reliable QoS Reliability Policy}\label{ch:appendix_a}
 
-Show results for reliable here.
+The experiment with the actual robotic system is also carried out in reliable \gls{qos} reliability policy. The \gls{ros} middleware still uses \gls{fast_dds}. The Ethernet connection is used and the bandwidth is constrained to 160 Mbps by \gls{netem}. 
+
+The results are shown in \cref{tab:dynamic_eth_reliable}. In general, the performance of the object detection task is lower compared to using the best effort \gls{qos} reliability policy. The best offloading ratio occurs at 0.2. Since the reliable policy requires a confirmation of the receipt of the message, both robot and edge \glspl{rtt} take longer. The "edge only" strategy cannot process any frames. Therefore, it does not have any measurement in terms of object detection performance. The dynamic offloading strategy still manages to adapt to these network changes and outperforms the "robot only" strategy by 1.5\% in \gls{ap}. 
+
+ % Table for dynamic offloading strategy with 160 Mbps bandwidth constraint
+\begin{table}[htb]%
+    \centering%
+    \footnotesize
+    \begin{tabular}{l|ccc|c}
+        \toprule
+        Strategies &                        Robot only &            Edge only &             Best among ratios &                dynamic offloading \\
+        \midrule
+        \gls{ap} &                          $18.08\%\pm0.99\%$ &    $0$ &     $31.01\%\pm1.24\%$ &        $19.47\%\pm1.54\%$\\
+        Robot perception \gls{rtt} / ms &        $1634.72\pm 64.30$ &     / &                     $1781.34\pm142.89$ &          $1594.10\pm109.72$\\
+        Edge perception \gls{rtt} / ms &          / &                    / &         $322.47\pm0.21$ &            $2517.29\pm257.00$\\
+        Processed frames percentage &       $59.87\%\pm2.45\%$ &    $0$ &          $68.88\%\pm0.27\%$ &        $61.92\%\pm4.07\%$\\
+        \midrule
+        CPU usage &                         $48.69\% \pm 0.85\%$ &  $6.35\% \pm 0.80\%$ &    $49.24\% \pm 0.65\%$ &     $48.00\% \pm 0.81\%$ \\
+        Power consumption / mJ/s &      $17.17 \pm 0.73$ &      $2.14 \pm 0.09 $ &       $16.21 \pm 0.05$ &         $16.94 \pm 0.89$\\
+        Bandwidth usage / Mbps &            $3.22 \pm 0.14$ &       $151.73 \pm 0.92$ &      $59.50 \pm 0.77$ &         $12.79 \pm 0.97$ \\
+        
+        \bottomrule
+    \end{tabular}
+    \caption{Metrics of dynamic offloading strategy compared with baseline strategies using Ethernet with 160 Mbps bandwidth constraint and reliable \gls{qos} reliability policy}
+    \label{tab:dynamic_eth_reliable}%
+\end{table}
+

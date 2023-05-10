@@ -24,7 +24,7 @@
 %
 % Set paths
 \graphicspath{{figures/}}%
-\addbibresource{safety_offloading.bib}%
+\addbibresource{bibliothek.bib}%
 %
 % Define additional commands
 \newcommand{\code}[1]{\texttt{#1}}%
@@ -46,6 +46,12 @@
 %\RAIstudentthesisTitlePageCustomIDP{German Title}{English Title}{\RAIlangFieldOfStudyRoboticsCognitionIntelligence}{Martin Mustermann}{}{\RAInamesProfKnoll}{Musterbetreuer, M.Sc.}{\RAIutilsDate{1}{1}{2020}}%
 \RAIstudentthesisTitlePageCustomMastersThesis{Analyse von Edge Computing Offloading Strategien für autonome mobile Roboter}{Analysis of Edge Computing Offloading Strategies for Autonomous Mobile Robots}{\RAIlangFieldOfStudyRoboticsCognitionIntelligence}{Xiyan Su}{}{\RAInamesProfKnoll}{Robin Dietrich, M.Sc.}{\RAIutilsDate{15}{05}{2023}}%
 % \RAIstudentthesisTitlePageCustomMastersThesis{Analyse von Edge Computing Offloading Strategien für autonome mobile Roboter}{Analysis of Edge Computing Offloading Strategies for Autonomous Mobile Robots}{\RAIlangFieldOfStudyRoboticsCognitionIntelligence}{Xiyan Su}{}{\RAInamesProfKnoll}{Robin Dietrich, M.Sc.}{\today}%
+%
+% Glossaries
+% ----------
+\include{source/00glossaries}
+\printglossary[title=Special Terms, toctitle=List of terms]
+\printglossary[type=\acronymtype, toctitle=List of acronyms]
 
 % Abstract
 % --------
@@ -62,12 +68,6 @@
 \listoffigures
 \listoftables
 
-%
-% Glossaries
-% ----------
-\include{source/00glossaries}
-\printglossary[title=Special Terms, toctitle=List of terms]
-\printglossary[type=\acronymtype, toctitle=List of acronyms]
 
 %
 % Content
@@ -75,8 +75,8 @@
 \RAIstudentthesisPrintTableOfContents%
 \mainmatter%
 \include{source/01introduction}
-\include{source/02related_works}
-\include{source/03materials_and_methods}
+\include{source/02background}
+\include{source/03related_works}
 \include{source/04methodology}
 \include{source/05implementation}
 \include{source/06experiments}
@@ -92,7 +92,7 @@
 % References
 % ----------
 {%
-    %\sloppy% "Word"-like typesetting in order to improve breaking lines with long URLs/DOIs
+    \sloppy% "Word"-like typesetting in order to improve breaking lines with long URLs/DOIs
     \printbibliography[heading=bibintoc]%
 }%
 %
