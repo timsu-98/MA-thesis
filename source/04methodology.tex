@@ -1,12 +1,12 @@
 \chapter{Methodology}\label{ch:methodology}
 
-This chapter describes the methodology the thesis adopts to solve the problem. In \cref{sec:system_design}, the system design of the perception offloading is presented and explained. Then, the offloading strategies are described in \cref{sec:offloading_decision}. 
+This chapter describes the methodology to solve the problem. In \cref{sec:system_design}, the system design of the perception offloading is presented and explained. Then, the offloading strategies are described in \cref{sec:offloading_decision}. 
 
 % -----------------------------------------------
 \section{System Design}\label{sec:system_design}
 % -----------------------------------------------
 
-This thesis designs and implements a perception offloading framework and different offloading strategies in order to carry out the experiments. This section first describes the design for an offloading framework based on perception tasks. Then, different offloading strategies are presented. Finally, this section describes what system states are chosen to represent the state of the perception offloading.
+A perception offloading framework and different offloading strategies are designed and implemented in order to carry out the experiments. This section first describes the design for an offloading framework based on perception tasks. Then, different offloading strategies are presented. Finally, this section describes what system states are chosen to represent the state of the perception offloading.
 
 \subsection{Perception offloading}
 
@@ -17,11 +17,11 @@ This thesis designs and implements a perception offloading framework and differe
     \label{fig:perception_offloading_framework}
 \end{figure}
 
-The designed offloading framework is illustrated in \cref{fig:perception_offloading_framework}. As shown, this thesis only investigates the scenario where one \gls{amr} offloads the perception task to one edge computer. Therefore, the offloading modules are located solely on the robot's onboard system. To ensure the safety of the robot in case of a complete network connection loss, a perception module is also included on the robot's onboard system. However, since the robot onboard system usually has limited resources, the onboard perception module uses a less computationally expensive object detection model. In contrast, the edge computer has abundant resources. Therefore, it uses a perception module with a more complex model with higher precision. 
+The designed offloading framework is illustrated in \cref{fig:perception_offloading_framework}. As shown, only the scenario where one \gls{amr} offloads the perception task to one edge computer is investigated. Therefore, the offloading modules are located solely on the robot's onboard system. To ensure the safety of the robot in case of a complete network connection loss, a perception module is also included on the robot's onboard system. However, since the robot onboard system usually has limited resources, the onboard perception module uses a less computationally expensive object detection model. In contrast, the edge computer has abundant resources. Therefore, it uses a perception module with a more complex model with higher precision. 
 
 % Besides the processed detection, the perception modules also record the inference time used for each detection and return it to the offloading module. Furthermore, a network monitor is set up between the robot and the edge systems to measure the network latency. Finally, a resource monitor is used on the robot's onboard system to measure the onboard resource usage.
 
-To evaluate different offloading strategies, the offloading module adopts a plugin mechanism to load the offloading strategies at startup. The offloading module receives different system states from the state monitors located on the robot's onboard system and on the edge computer. When the offloading module receives an image from the camera, it has to make a decision whether to offload the image to the edge computer or to compute it locally on the robot. Therefore, the offloading module passes the system states to the strategy plugin as run-time parameters and receives the offloading decision. 
+To evaluate different offloading strategies, the offloading module adopts a plug-in mechanism to load the offloading strategy at start-up. The offloading module receives different system states from the state monitors located on the robot's onboard system and on the edge computer. When the offloading module receives an image from the camera, it has to make a decision whether to offload the image to the edge computer or to compute it locally on the robot. Therefore, the offloading module passes the system states to the strategy plug-in as runtime parameters and receives the offloading decision. 
 
 In addition to the perception modules and the offloading modules, there are also different state monitors that keep track of the onboard resources of the robot and the network condition between the robot and the edge computer. The network monitor measures the network latency between the robot and the edge computer. The resource monitor monitors CPU usage and energy consumption of the robot's onboard system. Furthermore, the perception modules are also responsible for measuring the inference times of the object detection models and sending them back to the offloading module 
 
@@ -44,23 +44,23 @@ where $t_{network}^{out}$ is the network outgoing delay and the $t_{network}^{ou
 
 For onboard resource usage, the \gls{cpu} usage, the power consumption, and the bandwidth usage are measured. The \gls{cpu} usage and the power consumption can be directly measured with the robot's onboard system. However, the bandwidth usage needs to be calculated with the network IO measurements as follows:
 
-\begin{equation}
-    bandwidth = \frac{n_{t_2} - n_{t_1}}{t_2 - t_1} \times 10^{-6} 
+\begin{equation}\label{eqn:bandwidth}
+    bandwidth = \frac{n_{t_2} - n_{t_1}}{t_2 - t_1} \times 10^{-6} \times 8
 \end{equation}
 
-where $n_{t_i}$ represents the number of bytes the network has sent till time $t_i$. The bandwidth is calculated in megabytes per second (MB/s). 
+where $n_{t_i}$ represents the number of bytes the network has sent till time $t_i$. The bandwidth is calculated in megabits per second (Mbps). 
 
-The onboard resource usage represents the availability of the \gls{amr}. If the \gls{cpu} usage is too high, the robot can have no resources left for other tasks performed onboard, such as \gls{slam} and navigation, and cannot operate anymore. Similarly, if the power consumption is too high, the robot needs to be recharged more often. Moreover, if the available bandwidth of the robot network is too small, the robot cannot communicate via the network. Therefore, these measurements are used as system states for making offloading decisions. 
+The onboard resource usage represents the availability of the \gls{amr}. If the \gls{cpu} usage is too high, the robot will have no resources left for other tasks performed onboard, such as \gls{slam} and navigation, and cannot operate anymore. Similarly, if the power consumption is too high, the robot needs to be recharged more often. Moreover, if the available bandwidth of the robot network is too small, the robot cannot communicate via the network. Therefore, these measurements are used as system states for making offloading decisions. 
 
 % ----------------------------------------------------------
 \section{Offloading Decision}\label{sec:offloading_decision}
 % ----------------------------------------------------------
 
-For the offloading module to make offloading decisions, an offloading strategy is needed. In this thesis, several naive strategies are first investigated as baseline strategies. Their influence on various metrics of the system is evaluated. Based on their performance, a dynamic offloading strategy that uses the run-time system states, which are described in \cref{sec:system_design}, is implemented and evaluated against the baseline strategies. 
+For the offloading module to make offloading decisions, an offloading strategy is needed. Several naive strategies are first investigated as baseline strategies. Their influence on various metrics of the system is evaluated. Based on their performance, a dynamic offloading strategy that uses the runtime system states, which are described in \cref{sec:system_design}, is implemented and evaluated against the baseline strategies. 
 
 \subsection{Baseline strategies}
 
-As baselines, this thesis first investigates the scenarios where the robot only computes the object detection task locally on its onboard system or only offloads the task to the edge computer. These two strategies are named the "robot only" strategy and the "edge only" strategy. Then, the thesis continues to investigate the scenarios where the robot offloads a portion of the frames with a fixed ratio. For example, an offloading ratio of 0.2 will allows the offloading module to offload one image to the edge for every five images. The offloading strategies with a fixed offloading ratio can be realized with \cref{alg:ratio_strategy}. The offloading ratio should be a value ranging from 0 to 1. 
+As baselines, the scenarios where the robot only computes the object detection task locally on its onboard system or only offloads the task to the edge computer are first investigated. These two strategies are named the "robot only" strategy and the "edge only" strategy. Then, the thesis continues to investigate the scenarios where the robot offloads a portion of the frames with a fixed ratio. For example, an offloading ratio of 0.2 will allows the offloading module to offload one image to the edge for every five images. The offloading strategies with a fixed offloading ratio can be realized with \cref{alg:ratio_strategy}. The offloading ratio should be a value ranging from 0 to 1. 
 
 \begin{algorithm}[htp]
 \caption{Algorithm to offload with a fixed ratio}\label{alg:ratio_strategy}
@@ -79,13 +79,13 @@ As baselines, this thesis first investigates the scenarios where the robot only 
 \end{algorithmic}
 \end{algorithm}
 
-With results from the experiments on baseline offloading strategies, this thesis intends to find the limits of the system and analyze its behavior. More specifically, the experiments and evaluation with the baseline strategies intend to investigate the question that under what circumstances the performance of the perception performance starts to deteriorate and offloading the perception tasks is no longer beneficial for the robot. With the results, this thesis then develops and implements a dynamic offloading strategy that uses run-time system states to make offloading decisions. 
+With results from the experiments on baseline offloading strategies, this thesis intends to find the limits of the system and analyze its behavior. More specifically, the experiments and evaluation with the baseline strategies intend to investigate the question that under what circumstances the performance of the perception performance starts to deteriorate and offloading the perception tasks is no longer beneficial for the robot. With the results, a dynamic offloading strategy that uses runtime system states to make offloading decisions is then developed and implemented. 
 
 \subsection{Dynamic offloading}
 
-The dynamic offloading strategy aims to adapt to the changes in robot and edge systems as well as in network conditions.  For the one-robot-one-edge scenario, this thesis uses a simplified version of the offloading strategy proposed by \citeauthor*{Ning2019} \cite{Ning2019} with the goal of minimizing the execution latency and improving the average precision of the object detection task. Moreover, this dynamic offloading strategy is subjected to the constraints of other system states. In this thesis, we consider two run-time system states as constraints: \gls{amr}'s \gls{cpu} usage and the network bandwidth. The problem can be formulated as a constraint optimization problem as follow:
+The dynamic offloading strategy aims to adapt to the changes in robot and edge systems as well as in network conditions. For the one-robot-one-edge scenario, a dynamic offloading strategy with the goal of minimizing the execution latency and improving the average precision of the object detection task is used. Moreover, this dynamic offloading strategy is subjected to the constraints of other system states. Two runtime system states are considered as constraints: \gls{amr}'s \gls{cpu} usage and the network bandwidth. The problem can be formulated as a constraint optimization problem as follow:
 
-\begin{equation}
+\begin{equation}\label{eqn:execution_latency}
     \min_{(\alpha, \beta)} \: t_{latency} = t_{inference} + t_{network}
 \end{equation}
 
@@ -122,7 +122,7 @@ In addition to the execution latency, the offloading decision is also subjected 
 \begin{algorithm}[htp]
 \caption{Algorithm to offload with dynamic parameters}\label{alg:decision_making_strategy}
 \begin{algorithmic}[1]
-    \Function{DecisionMakingStrategy}{$params$}\Comment{run-time parameters: $params$}
+    \Function{DecisionMakingStrategy}{$params$}\Comment{runtime parameters: $params$}
         \State $cpu_{max} \gets$ GetMaxCPULevel()
         \If{params['cpu\textunderscore usage'] $\geq cpu_{max}$} 
             \State return true \Comment{Offload if CPU usage exceeds limit}
