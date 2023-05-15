@@ -50,8 +50,6 @@
 % Glossaries
 % ----------
 \include{source/00glossaries}
-\printglossary[title=Special Terms, toctitle=List of terms]
-\printglossary[type=\acronymtype, toctitle=List of acronyms]
 
 % Abstract
 % --------
@@ -64,15 +62,17 @@
 %
 % List of figures and tables
 % --------------------------
-\listofalgorithms
-\listoffigures
-\listoftables
 
 
 %
 % Content
 % -------
 \RAIstudentthesisPrintTableOfContents%
+\listofalgorithms
+\listoffigures
+\listoftables
+\printglossary[title=Special Terms, toctitle=List of terms]
+\printglossary[type=\acronymtype, toctitle=List of acronyms]
 \mainmatter%
 \include{source/01introduction}
 \include{source/02background}
