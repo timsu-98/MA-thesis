@@ -19,3 +19,8 @@
 *.upa
 *.upb
 *.dvi
+*.acr
+*.alg
+*.glg
+*.gls
+*.loa

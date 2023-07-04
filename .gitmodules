@@ -1,3 +1,0 @@
-[submodule "dependencies/literature"]
-	path = dependencies/literature
-	url = git@github.com:timsu-98/literature.git
